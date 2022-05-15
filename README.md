@@ -1,6 +1,6 @@
 # network-etcd
 
-[![license](https://img.shields.io/github/license/self-crafted/network-etcd?style=flat-square&color=b2204c)](../LICENSE)
+[![license](https://img.shields.io/github/license/self-crafted/network-etcd?style=flat-square&color=b2204c)](LICENSE)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 Server discovery for Minecraft networks
@@ -42,4 +42,4 @@ Small note: If editing the README, please conform to the [standard-readme](https
 
 ## License
 
-This project is licensed under the [Apache License Version 2.0](../LICENSE).
+This project is licensed under the [Apache License Version 2.0](LICENSE).
