@@ -1,11 +1,12 @@
 package com.github.selfcrafted.networketcd.common.data;
 
+import java.net.InetAddress;
 import java.util.UUID;
 
 /**
  * Represents server information useful for both backend servers and proxies
  */
-public interface BaseData {
+public interface BackendData {
     /**
      * The identifier of the backend server used by proxy and backend servers to refer to a specific server
      * @return The UUID of the server
@@ -35,4 +36,10 @@ public interface BaseData {
      * @return The number of players
      */
     int maximumPlayerCount();
+
+    /**
+     * The address on which the backend server listens
+     * @return An InetAddress containing the address
+     */
+    InetAddress address();
 }
