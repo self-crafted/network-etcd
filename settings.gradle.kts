@@ -14,7 +14,7 @@ pluginManagement {
     includeBuild("build-logic")
 }
 
-rootProject.name = "server-discovery"
+rootProject.name = "network-etcd"
 
 include("common")
 include("proxy")
