@@ -4,7 +4,7 @@ import java.net.InetAddress;
 import java.util.UUID;
 
 /**
- * Represents server information useful for both backend servers and proxies
+ * Represents server information used by both backend servers and proxies
  */
 public interface BackendData {
     /**
