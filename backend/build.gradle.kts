@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     implementation(projects.common)
+    implementation(libs.jetcd)
 }
