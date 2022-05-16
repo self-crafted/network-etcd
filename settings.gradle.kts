@@ -17,5 +17,4 @@ pluginManagement {
 rootProject.name = "network-etcd"
 
 include("common")
-include("proxy")
 include("backend")
