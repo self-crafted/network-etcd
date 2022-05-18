@@ -36,8 +36,9 @@ public class NetworkUpdateListener {
     public void start() {
         this.thread = new Thread(() -> {
             // TODO: 16.05.22 watch on every "mutable" key and call the callbacks on changes
-            var watch = ETCD.getWatchClient().watch(toByteSequence(EtcdPaths.ROOT_PATH),
-                            WatchOption.newBuilder().isPrefix(true).withPrevKV(true).build(), watchResponse -> {
+            try (var watch = ETCD.getWatchClient()) {
+                watch.watch(toByteSequence(EtcdPaths.ROOT_PATH),
+                    WatchOption.newBuilder().isPrefix(true).withPrevKV(true).build(), watchResponse -> {
                         var serversToDelete = new HashSet<UUID>();
                         var serversToUpdateOnlinePlayers = new HashMap<UUID, Integer>();
                         var serversToUpdateMaximumPlayers = new HashMap<UUID, Integer>();
@@ -81,6 +82,7 @@ public class NetworkUpdateListener {
                             }
                         });
                     });
+            }
 
             // TODO: 16.05.22 discover every server form etcd
             var servers = ETCD.getKVClient()
