@@ -6,6 +6,7 @@ import io.etcd.jetcd.options.GetOption;
 import io.etcd.jetcd.options.WatchOption;
 import io.etcd.jetcd.watch.WatchEvent;
 
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
@@ -46,7 +47,8 @@ public class NetworkUpdateListener {
                         for (WatchEvent event : events) {
                             switch (event.getEventType()) {
                                 case PUT -> {
-                                    // TODO: 18.05.22 find out if server got created or was updated
+                                    // TODO: 18.05.22 create server if uuid, server protocol or address is created else ignore
+                                    // TODO: 18.05.22 update server if min client protocol, player count, max players or item representation are put and uuid path exists else ignore
                                     var key = event.getPrevKV().getKey();
                                     var serverId = EtcdPaths.getServerUuidFromPath(key);
                                     serversToCreate.computeIfAbsent(UUID.fromString(serverId.toString(Charset.defaultCharset())), uuid -> new HashMap<>());
@@ -71,7 +73,9 @@ public class NetworkUpdateListener {
                                 onItemRepresentationUpdate.onUpdate(uuid, string));
                         serversToCreate.forEach((key, value) -> {
                             try {
-                                onNewServer.onNewServer(BackendData.fromMap(key, value));
+                                onNewServer.onNewServer(new BackendDataImpl(key,
+                                        InetAddress.getByName(value.get(EtcdPaths.ADDRESS_PATH)),
+                                        Integer.parseInt(value.get(EtcdPaths.SPOKEN_PROTOCOL_VERSION_PATH))));
                             } catch (UnknownHostException e) {
                                 System.err.println(e);
                             }

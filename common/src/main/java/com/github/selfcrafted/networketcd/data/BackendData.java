@@ -51,18 +51,6 @@ public interface BackendData {
      */
     String itemRepresentation();
 
-    static BackendData fromMap(UUID serverId, Map<String, String> data) throws UnknownHostException {
-        return new BackendDataImpl(
-                serverId,
-                InetAddress.getByName(data.get(EtcdPaths.ADDRESS_PATH)),
-                data.get(EtcdPaths.ITEM_REPRESENTATION_PATH),
-                Integer.parseInt(data.get(EtcdPaths.SPOKEN_PROTOCOL_VERSION_PATH)),
-                Integer.parseInt(data.get(EtcdPaths.MINIMUM_PROTOCOL_VERSION_PATH)),
-                Integer.parseInt(data.get(EtcdPaths.ONLINE_PLAYER_COUNT_PATH)),
-                Integer.parseInt(data.get(EtcdPaths.MAXIMUM_PLAYER_COUNT_PATH))
-        );
-    }
-
     class Builder {
         private final UUID uuid;
         private InetAddress address;
@@ -112,11 +100,11 @@ public interface BackendData {
             return new BackendDataImpl(
                     uuid,
                     address,
-                    itemRepresentation,
                     spokenProtocolVersion,
                     minimumProtocolVersion < 0 ? spokenProtocolVersion : minimumProtocolVersion,
                     onlinePlayerCount,
-                    maximumPlayerCount);
+                    maximumPlayerCount,
+                    itemRepresentation);
         }
     }
 }
