@@ -1,5 +1,7 @@
 package com.github.selfcrafted.networketcd.data;
 
+import io.etcd.jetcd.ByteSequence;
+
 /**
  * The keys in etcd to store these values
  */
@@ -11,4 +13,9 @@ public class EtcdPaths {
     public static final String ONLINE_PLAYER_COUNT_PATH = "online_player_count";
     public static final String MAXIMUM_PLAYER_COUNT_PATH = "maximum_player_count";
     public static final String ITEM_REPRESENTATION_PATH = "item_representation";
+
+    public static ByteSequence getServerUuidFromPath(ByteSequence path) {
+        var start = EtcdPaths.ROOT_PATH.length();
+        return path.substring(start, start+36);
+    }
 }
