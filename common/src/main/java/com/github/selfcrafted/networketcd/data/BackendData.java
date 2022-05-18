@@ -1,6 +1,8 @@
 package com.github.selfcrafted.networketcd.data;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -48,6 +50,18 @@ public interface BackendData {
      * @return The item in Json or SNBT format
      */
     String itemRepresentation();
+
+    static BackendData fromMap(UUID serverId, Map<String, String> data) throws UnknownHostException {
+        return new BackendDataImpl(
+                serverId,
+                InetAddress.getByName(data.get(EtcdPaths.ADDRESS_PATH)),
+                data.get(EtcdPaths.ITEM_REPRESENTATION_PATH),
+                Integer.parseInt(data.get(EtcdPaths.SPOKEN_PROTOCOL_VERSION_PATH)),
+                Integer.parseInt(data.get(EtcdPaths.MINIMUM_PROTOCOL_VERSION_PATH)),
+                Integer.parseInt(data.get(EtcdPaths.ONLINE_PLAYER_COUNT_PATH)),
+                Integer.parseInt(data.get(EtcdPaths.MAXIMUM_PLAYER_COUNT_PATH))
+        );
+    }
 
     class Builder {
         private final UUID uuid;
