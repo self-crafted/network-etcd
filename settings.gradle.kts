@@ -16,5 +16,5 @@ pluginManagement {
 
 rootProject.name = "network-etcd"
 
-include("common")
-include("backend")
+include("read")
+include("write")
