@@ -18,11 +18,11 @@ public class NetworkUpdateListener {
 
     private Thread thread;
 
-    private OnNewServer onNewServer = new OnNewServer() {};
-    private OnServerDelete onServerDelete = new OnServerDelete() {};
-    private OnPlayerCountUpdate onOnlinePlayerCountUpdate = new OnPlayerCountUpdate() {};
-    private OnPlayerCountUpdate onMaxPlayerCountUpdate = new OnPlayerCountUpdate() {};
-    private OnItemUpdate onItemRepresentationUpdate = new OnItemUpdate() {};
+    private OnNewServer onNewServer = data -> { };
+    private OnServerDelete onServerDelete = serverID -> { };
+    private OnPlayerCountUpdate onOnlinePlayerCountUpdate = (serverId, PlayerCount) -> { };
+    private OnPlayerCountUpdate onMaxPlayerCountUpdate = (serverId, PlayerCount) -> { };
+    private OnItemUpdate onItemRepresentationUpdate = (serverId, itemRepresentation) -> { };
 
     public NetworkUpdateListener(List<URI> etcdEndpoints) {
         ETCD = Client.builder().endpoints(etcdEndpoints).build();
@@ -137,8 +137,8 @@ public class NetworkUpdateListener {
 
     private ByteSequence toByteSequence(String string) { return ByteSequence.from(string, Charset.defaultCharset()); }
 
-    public interface OnNewServer { default void onNewServer(BackendData data) {} }
-    public interface OnServerDelete { default void onServerDelete(UUID serverID) {} }
-    public interface OnPlayerCountUpdate { default void onUpdate(UUID serverId, int PlayerCount) {} }
-    public interface OnItemUpdate { default void onUpdate(UUID serverId, String itemRepresentation) {} }
+    public interface OnNewServer { void onNewServer(BackendData data); }
+    public interface OnServerDelete { void onServerDelete(UUID serverID); }
+    public interface OnPlayerCountUpdate { void onUpdate(UUID serverId, int PlayerCount); }
+    public interface OnItemUpdate { void onUpdate(UUID serverId, String itemRepresentation); }
 }
