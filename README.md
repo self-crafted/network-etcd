@@ -17,9 +17,21 @@ Proxies are then able to update their internal list of known servers and backend
 - [License](#license)
 
 ## Install
+[![](https://jitpack.io/v/self-crafted/network-etcd.svg)](https://jitpack.io/#self-crafted/network-etcd)
 
-```
-// TODO
+In `build.gradle.kts`
+```kotlin
+repositories {
+    mavenCentral()
+    maven(url = "https://jitpack.io")
+}
+
+dependencies {
+    // if only reading, this is sufficient
+    implementation("com.github.self-crafted.network-etcd:read:<commit_hash>")
+    // if reading and writing to the DB, use this
+    implementation("com.github.self-crafted.network-etcd:write:<commit_hash>")
+}
 ```
 
 ## Usage
