@@ -1,0 +1,12 @@
+name: Trigger Jitpack Build
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Jitpack Build
+        run: curl "https://jitpack.io/com/github/self-crafted/network-etcd/${GITHUB_SHA:0:10}/build.log"
