@@ -1,11 +1,11 @@
 package com.github.selfcrafted.networketcd.data;
 
-import java.net.InetAddress;
+import java.net.SocketAddress;
 import java.util.UUID;
 
 class BackendDataImpl implements BackendData {
     private final UUID uuid;
-    private final InetAddress address;
+    private final SocketAddress address;
     private final int spokenProtocolVersion;
 
     private int minimumProtocolVersion = -1;
@@ -13,14 +13,14 @@ class BackendDataImpl implements BackendData {
     private int maximumPlayerCount = -1;
     private String itemRepresentation = null;
 
-    public BackendDataImpl(UUID uuid, InetAddress address, int spokenProtocolVersion) {
+    public BackendDataImpl(UUID uuid, SocketAddress address, int spokenProtocolVersion) {
         this.uuid = uuid;
         this.address = address;
         this.spokenProtocolVersion = spokenProtocolVersion;
     }
 
     public BackendDataImpl(UUID uuid,
-                           InetAddress address,
+                           SocketAddress address,
                            int spokenProtocolVersion,
                            int minimumProtocolVersion,
                            int onlinePlayerCount,
@@ -57,7 +57,7 @@ class BackendDataImpl implements BackendData {
     }
 
     @Override
-    public InetAddress address() {
+    public SocketAddress address() {
         return address;
     }
 

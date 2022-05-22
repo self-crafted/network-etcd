@@ -1,8 +1,6 @@
 package com.github.selfcrafted.networketcd.data;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Map;
+import java.net.SocketAddress;
 import java.util.UUID;
 
 /**
@@ -41,9 +39,10 @@ public interface BackendData {
 
     /**
      * The address on which the backend server listens
+     *
      * @return An InetAddress containing the address
      */
-    InetAddress address();
+    SocketAddress address();
 
     /**
      * A representation of the server as an item for inventory GUIs
@@ -53,20 +52,20 @@ public interface BackendData {
 
     class Builder {
         private final UUID uuid;
-        private InetAddress address;
+        private SocketAddress address;
         private int spokenProtocolVersion;
         private int minimumProtocolVersion = -1;
         private int onlinePlayerCount = -1;
         private int maximumPlayerCount = -1;
         private String itemRepresentation = null;
 
-        public Builder(InetAddress address, int spokenProtocolVersion) {
+        public Builder(SocketAddress address, int spokenProtocolVersion) {
             this.uuid = UUID.randomUUID();
             this.address = address;
             this.spokenProtocolVersion = spokenProtocolVersion;
         }
 
-        public Builder address(InetAddress address) {
+        public Builder address(SocketAddress address) {
             this.address = address;
             return this;
         }

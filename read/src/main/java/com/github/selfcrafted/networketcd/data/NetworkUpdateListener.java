@@ -6,9 +6,7 @@ import io.etcd.jetcd.options.GetOption;
 import io.etcd.jetcd.options.WatchOption;
 import io.etcd.jetcd.watch.WatchEvent;
 
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -73,13 +71,12 @@ public class NetworkUpdateListener {
                         serversToUpdateItemRepresentation.forEach((uuid, string) ->
                                 onItemRepresentationUpdate.onUpdate(uuid, string));
                         serversToCreate.forEach((key, value) -> {
-                            try {
-                                onNewServer.onNewServer(new BackendDataImpl(key,
-                                        InetAddress.getByName(value.get(EtcdPaths.ADDRESS_PATH)),
-                                        Integer.parseInt(value.get(EtcdPaths.SPOKEN_PROTOCOL_VERSION_PATH))));
-                            } catch (UnknownHostException e) {
-                                System.err.println(e);
-                            }
+                            var address = value.get(EtcdPaths.ADDRESS_PATH);
+                            var split = address.lastIndexOf(":");
+                            onNewServer.onNewServer(new BackendDataImpl(key,
+                                    new InetSocketAddress(address.substring(0, split),
+                                            Integer.parseInt(address.substring(split))),
+                                    Integer.parseInt(value.get(EtcdPaths.SPOKEN_PROTOCOL_VERSION_PATH))));
                         });
                     });
             }
