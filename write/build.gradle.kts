@@ -5,4 +5,5 @@ plugins {
 dependencies {
     api(projects.read)
     implementation(libs.jetcd)
+    compileOnly(libs.kyori)
 }

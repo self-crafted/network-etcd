@@ -2,9 +2,11 @@ package com.github.selfcrafted.networketcd.data.backend;
 
 import com.github.selfcrafted.networketcd.data.BackendData;
 import com.github.selfcrafted.networketcd.data.EtcdPaths;
+import com.github.selfcrafted.networketcd.data.MenuIcon;
 import io.etcd.jetcd.ByteSequence;
 import io.etcd.jetcd.Client;
 import io.etcd.jetcd.options.DeleteOption;
+import net.kyori.adventure.text.Component;
 
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -33,8 +35,10 @@ public class NetworkUpdateWriter {
                 backendData.onlinePlayerCount());
         put(Path.of(EtcdPaths.ROOT_PATH, backendData.uuid().toString(), EtcdPaths.MAXIMUM_PLAYER_COUNT_PATH).toString(),
                 backendData.maximumPlayerCount());
-        put(Path.of(EtcdPaths.ROOT_PATH, backendData.uuid().toString(), EtcdPaths.ITEM_REPRESENTATION_PATH).toString(),
-                backendData.itemRepresentation());
+        put(Path.of(EtcdPaths.ROOT_PATH, backendData.uuid().toString(), EtcdPaths.DISPLAY_NAME_PATH).toString(),
+                backendData.displayName());
+        put(Path.of(EtcdPaths.ROOT_PATH, backendData.uuid().toString(), EtcdPaths.MENU_ICON_PATH).toString(),
+                backendData.menuIcon());
     }
 
     public void delete() {
@@ -44,9 +48,13 @@ public class NetworkUpdateWriter {
                 DeleteOption.newBuilder().isPrefix(true).build());
     }
 
-    public void updateItemRepresentation(String itemRepresentation) {
-        put(Path.of(EtcdPaths.ROOT_PATH, backendData.uuid().toString(), EtcdPaths.ITEM_REPRESENTATION_PATH).toString(),
-                itemRepresentation);
+    public void updateDisplayName(Component displayName) {
+        put(Path.of(EtcdPaths.ROOT_PATH, backendData.uuid().toString(), EtcdPaths.DISPLAY_NAME_PATH).toString(),
+                displayName);
+    }
+    public void updateMenuIcon(MenuIcon menuIcon) {
+        put(Path.of(EtcdPaths.ROOT_PATH, backendData.uuid().toString(), EtcdPaths.MENU_ICON_PATH).toString(),
+                menuIcon);
     }
 
     public void updateMaximumPlayerCount(String maximumPlayerCount) {

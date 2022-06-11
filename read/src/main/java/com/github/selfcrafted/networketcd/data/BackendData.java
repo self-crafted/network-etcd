@@ -1,5 +1,7 @@
 package com.github.selfcrafted.networketcd.data;
 
+import net.kyori.adventure.text.Component;
+
 import java.net.SocketAddress;
 import java.util.UUID;
 
@@ -45,10 +47,16 @@ public interface BackendData {
     SocketAddress address();
 
     /**
-     * A representation of the server as an item for inventory GUIs
-     * @return The item in Json or SNBT format
+     * The name of the server to be displayed for players
+     * @return The name as Component
      */
-    String itemRepresentation();
+    Component displayName();
+
+    /**
+     * The item the server is displayed with in menus
+     * @return The icon as string (probably namespace id) and amount
+     */
+    MenuIcon menuIcon();
 
     class Builder {
         private final UUID uuid;
@@ -57,7 +65,8 @@ public interface BackendData {
         private int minimumProtocolVersion = -1;
         private int onlinePlayerCount = -1;
         private int maximumPlayerCount = -1;
-        private String itemRepresentation = null;
+        private Component displayName = null;
+        private MenuIcon menuIcon = null;
 
         public Builder(SocketAddress address, int spokenProtocolVersion) {
             this.uuid = UUID.randomUUID();
@@ -90,8 +99,13 @@ public interface BackendData {
             return this;
         }
 
-        public Builder itemRepresentation(String itemRepresentation) {
-            this.itemRepresentation = itemRepresentation;
+        public Builder serverName(Component displayName) {
+            this.displayName = displayName;
+            return this;
+        }
+
+        public Builder menuIcon(MenuIcon menuIcon) {
+            this.menuIcon = menuIcon;
             return this;
         }
 
@@ -103,7 +117,8 @@ public interface BackendData {
                     minimumProtocolVersion < 0 ? spokenProtocolVersion : minimumProtocolVersion,
                     onlinePlayerCount,
                     maximumPlayerCount,
-                    itemRepresentation);
+                    displayName,
+                    menuIcon);
         }
     }
 }

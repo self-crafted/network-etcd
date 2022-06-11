@@ -1,5 +1,7 @@
 package com.github.selfcrafted.networketcd.data;
 
+import net.kyori.adventure.text.Component;
+
 import java.net.SocketAddress;
 import java.util.UUID;
 
@@ -11,7 +13,8 @@ class BackendDataImpl implements BackendData {
     private int minimumProtocolVersion = -1;
     private int onlinePlayerCount = -1;
     private int maximumPlayerCount = -1;
-    private String itemRepresentation = null;
+    private Component displayName = null;
+    private MenuIcon menuIcon = null;
 
     public BackendDataImpl(UUID uuid, SocketAddress address, int spokenProtocolVersion) {
         this.uuid = uuid;
@@ -25,14 +28,16 @@ class BackendDataImpl implements BackendData {
                            int minimumProtocolVersion,
                            int onlinePlayerCount,
                            int maximumPlayerCount,
-                           String itemRepresentation) {
+                           Component displayName,
+                           MenuIcon menuIcon) {
         this.uuid = uuid;
         this.address = address;
         this.spokenProtocolVersion = spokenProtocolVersion;
         this.minimumProtocolVersion = minimumProtocolVersion;
         this.onlinePlayerCount = onlinePlayerCount;
         this.maximumPlayerCount = maximumPlayerCount;
-        this.itemRepresentation = itemRepresentation;
+        this.displayName = displayName;
+        this.menuIcon = menuIcon;
     }
 
     public void setMinimumProtocolVersion(int minimumProtocolVersion) {
@@ -47,8 +52,12 @@ class BackendDataImpl implements BackendData {
         this.maximumPlayerCount = maximumPlayerCount;
     }
 
-    public void setItemRepresentation(String itemRepresentation) {
-        this.itemRepresentation = itemRepresentation;
+    public void setDisplayName(Component displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setMenuIcon(MenuIcon menuIcon) {
+        this.menuIcon = menuIcon;
     }
 
     @Override
@@ -82,7 +91,12 @@ class BackendDataImpl implements BackendData {
     }
 
     @Override
-    public String itemRepresentation() {
-        return itemRepresentation;
+    public Component displayName() {
+        return displayName;
+    }
+
+    @Override
+    public MenuIcon menuIcon() {
+        return menuIcon;
     }
 }

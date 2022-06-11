@@ -5,6 +5,7 @@ import io.etcd.jetcd.Client;
 import io.etcd.jetcd.options.GetOption;
 import io.etcd.jetcd.options.WatchOption;
 import io.etcd.jetcd.watch.WatchEvent;
+import net.kyori.adventure.text.Component;
 
 import java.net.*;
 import java.nio.charset.Charset;
@@ -22,7 +23,8 @@ public class NetworkUpdateListener {
     private OnServerDelete onServerDelete = serverID -> { };
     private OnPlayerCountUpdate onOnlinePlayerCountUpdate = (serverId, PlayerCount) -> { };
     private OnPlayerCountUpdate onMaxPlayerCountUpdate = (serverId, PlayerCount) -> { };
-    private OnItemUpdate onItemRepresentationUpdate = (serverId, itemRepresentation) -> { };
+    private OnDisplayNameUpdate onDisplayNameUpdate = (serverId, displayName) -> { };
+    private OnMenuIconUpdate onMenuIconUpdate = (serverId, menuIcon) -> { };
 
     public NetworkUpdateListener(List<URI> etcdEndpoints) {
         ETCD = Client.builder().endpoints(etcdEndpoints).build();
@@ -40,7 +42,8 @@ public class NetworkUpdateListener {
                         var serversToDelete = new HashSet<UUID>();
                         var serversToUpdateOnlinePlayers = new HashMap<UUID, Integer>();
                         var serversToUpdateMaximumPlayers = new HashMap<UUID, Integer>();
-                        var serversToUpdateItemRepresentation = new HashMap<UUID, String>();
+                        var serversToUpdateDisplayName = new HashMap<UUID, Component>();
+                        var serversToUpdateMenuIcon = new HashMap<UUID, MenuIcon>();
                         var serversToCreate = new HashMap<UUID, HashMap<String, String>>();
                         var events = watchResponse.getEvents();
                         for (WatchEvent event : events) {
@@ -68,8 +71,10 @@ public class NetworkUpdateListener {
                                 onOnlinePlayerCountUpdate.onUpdate(uuid, integer));
                         serversToUpdateMaximumPlayers.forEach((uuid, integer) ->
                                 onMaxPlayerCountUpdate.onUpdate(uuid, integer));
-                        serversToUpdateItemRepresentation.forEach((uuid, string) ->
-                                onItemRepresentationUpdate.onUpdate(uuid, string));
+                        serversToUpdateDisplayName.forEach((uuid, displayName) ->
+                                onDisplayNameUpdate.onUpdate(uuid, displayName));
+                        serversToUpdateMenuIcon.forEach(((uuid, menuIcon) ->
+                                onMenuIconUpdate.onUpdate(uuid, menuIcon)));
                         serversToCreate.forEach((key, value) -> {
                             var address = value.get(EtcdPaths.ADDRESS_PATH);
                             var split = address.lastIndexOf(":");
@@ -120,11 +125,19 @@ public class NetworkUpdateListener {
     }
 
     /**
-     * Set a callback to be executed when a server updates its item representation
-     * @param onItemRepresentationUpdate The callback to set
+     * Set a callback to be executed when a server updates its textual representation
+     * @param onDisplayNameUpdate The callback to set
      */
-    public void setOnItemRepresentationUpdate(OnItemUpdate onItemRepresentationUpdate) {
-        this.onItemRepresentationUpdate = onItemRepresentationUpdate;
+    public void setOnDisplayNameUpdate(OnDisplayNameUpdate onDisplayNameUpdate) {
+        this.onDisplayNameUpdate = onDisplayNameUpdate;
+    }
+
+    /**
+     * Set a callback to be executed when a server updates its item representation for menus
+     * @param onMenuIconUpdate The callback to set
+     */
+    public void setOnMenuIconUpdate(OnMenuIconUpdate onMenuIconUpdate) {
+        this.onMenuIconUpdate = onMenuIconUpdate;
     }
 
     /**
@@ -140,5 +153,6 @@ public class NetworkUpdateListener {
     public interface OnNewServer { void onNewServer(BackendData data); }
     public interface OnServerDelete { void onServerDelete(UUID serverID); }
     public interface OnPlayerCountUpdate { void onUpdate(UUID serverId, int PlayerCount); }
-    public interface OnItemUpdate { void onUpdate(UUID serverId, String itemRepresentation); }
+    public interface OnDisplayNameUpdate { void onUpdate(UUID serverId, Component displayName); }
+    public interface OnMenuIconUpdate { void onUpdate(UUID serverId, MenuIcon menuIcon); }
 }

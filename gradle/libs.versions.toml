@@ -2,6 +2,8 @@ metadata.format.version = "1.1"
 
 [versions]
 jetcd = "0.7.1"
+kyori = "4.11.0"
 
 [libraries]
 jetcd = { group = "io.etcd", name = "jetcd-core", version.ref = "jetcd"}
+kyori = { group = "net.kyori", name = "adventure-api", version.ref = "kyori"}
