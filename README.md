@@ -27,10 +27,7 @@ repositories {
 }
 
 dependencies {
-    // if only reading, this is sufficient
-    implementation("com.github.self-crafted.network-etcd:read:<commit_hash>")
-    // if reading and writing to the DB, use this
-    implementation("com.github.self-crafted.network-etcd:write:<commit_hash>")
+    implementation("com.github.self-crafted:network-etcd:<first_10_chars_of_commit_hash>")
 }
 ```
 
