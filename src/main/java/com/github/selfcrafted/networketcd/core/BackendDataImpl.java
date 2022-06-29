@@ -1,4 +1,4 @@
-package com.github.selfcrafted.networketcd.data;
+package com.github.selfcrafted.networketcd.core;
 
 import net.kyori.adventure.text.Component;
 

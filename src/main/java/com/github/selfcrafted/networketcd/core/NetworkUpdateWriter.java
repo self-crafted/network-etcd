@@ -1,8 +1,5 @@
-package com.github.selfcrafted.networketcd.data.backend;
+package com.github.selfcrafted.networketcd.core;
 
-import com.github.selfcrafted.networketcd.data.BackendData;
-import com.github.selfcrafted.networketcd.data.EtcdPaths;
-import com.github.selfcrafted.networketcd.data.MenuIcon;
 import io.etcd.jetcd.ByteSequence;
 import io.etcd.jetcd.Client;
 import io.etcd.jetcd.options.DeleteOption;
