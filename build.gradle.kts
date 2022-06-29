@@ -29,10 +29,8 @@ tasks {
 
     publishing {
         publications {
-            create<MavenPublication>("gpr") {
-                artifacts {
-                    components
-                }
+            create<MavenPublication>("maven") {
+                from(components["java"])
             }
         }
     }
